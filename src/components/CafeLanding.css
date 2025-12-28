@@ -1,0 +1,47 @@
+body, .landing-container {
+  direction: rtl;
+  font-family: 'Tahoma', sans-serif;
+  color: #fff;
+}
+
+.landing-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #7CB342, #33691E); /* سبز کله‌غازی */
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.header {
+  padding: 40px 30px;
+  text-align: right;
+}
+
+.slider-item {
+  position: relative;
+  text-align: center;
+}
+
+.slider-item img {
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin: auto;
+  transition: transform 0.5s ease;
+}
+
+.slider-item:hover img {
+  transform: scale(1.05);
+}
+
+.slider-item h2 {
+  margin-top: 10px;
+  color: #fff;
+  font-size: 1.5rem;
+}
