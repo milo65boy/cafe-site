@@ -1,52 +1,92 @@
 import React from "react";
-import Navbar from "./Navbar";
-import "./CafeLanding.css";
 
-function CafeLanding() {
+const CafeLanding = () => {
   return (
-    <div className="landing-container">
-      {/* Navbar */}
-      <Navbar />
+    <div style={styles.page}>
+      
+      {/* Hero Section */}
+      <div style={styles.hero}>
+        <img
+          src="/images/hero.jpg"
+          alt="CoffeeLand"
+          style={styles.heroImage}
+        />
+        <h1 style={styles.title}>CoffeeLand</h1>
+        <p style={styles.subtitle}>به دنیای طعم واقعی قهوه خوش آمدید ☕</p>
+      </div>
 
-      {/* Header Section */}
-      <header className="header" id="home">
-        <h1>کافه قهوه ما</h1>
-        <p>بهترین قهوه‌ها و دسرها در شهر شما</p>
-      </header>
+      {/* Gallery */}
+      <div style={styles.gallery}>
+        <img src="/images/coffee1.jpg" alt="قهوه" style={styles.galleryImg} />
+        <img src="/images/coffee2.jpg" alt="کافه" style={styles.galleryImg} />
+        <img src="/images/coffee3.jpg" alt="لاته" style={styles.galleryImg} />
+      </div>
 
-      {/* Products Section */}
-      <section className="images-section" id="menu">
-        <div className="product">
-          <img src="/images/coffee1.jpg" alt="قهوه داغ" />
-          <h2>قهوه داغ</h2>
-        </div>
-        <div className="product">
-          <img src="/images/coffee2.jpg" alt="کاپوچینو" />
-          <h2>کاپوچینو</h2>
-        </div>
-        <div className="product">
-          <img src="/images/cake.jpg" alt="دسر" />
-          <h2>دسر</h2>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="about-section">
-        <h2>درباره ما</h2>
+      {/* Contact */}
+      <div style={styles.contact}>
+        <h2>تماس با ما</h2>
+        <p>📞 09153870131</p>
+        <p>📍 خراسان شمالی، بجنورد، مابین میدان کارگر و میدان شهید، کوچه شهید دستپاک (کوچه برق)، روبروی سکه زرین، پلاک 143</p>
         <p>
-          کافه ما با عشق و تجربه، بهترین قهوه و دسرها را برای شما آماده می‌کند.
-          محیطی دنج و آرام برای لحظات خاص شما.
+          📸 Instagram:{" "}
+          <a
+            href="https://instagram.com/coffeeland.boj"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: "#e6ffe6" }}
+          >
+            coffeeland.boj
+          </a>
         </p>
-      </section>
-
-      {/* Footer */}
-      <footer className="footer" id="contact">
-        <h3>تماس با ما</h3>
-        <p className="phone">📞 09153870131</p>
-        <p className="phone">📞 09354310734</p>
-      </footer>
+      </div>
     </div>
   );
-}
+};
+
+const styles = {
+  page: {
+    backgroundColor: "#1f3d2b", // سبز کله‌قازی
+    color: "#ffffff",
+    minHeight: "100vh",
+    direction: "rtl",
+    textAlign: "center",
+    fontFamily: "sans-serif",
+  },
+  hero: {
+    padding: "40px 20px",
+  },
+  heroImage: {
+    width: "100%",
+    maxHeight: "400px",
+    objectFit: "cover",
+    borderRadius: "12px",
+  },
+  title: {
+    fontSize: "48px",
+    marginTop: "20px",
+  },
+  subtitle: {
+    fontSize: "20px",
+    opacity: 0.9,
+  },
+  gallery: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    padding: "40px 20px",
+    flexWrap: "wrap",
+  },
+  galleryImg: {
+    width: "300px",
+    height: "200px",
+    objectFit: "cover",
+    borderRadius: "12px",
+  },
+  contact: {
+    padding: "30px 20px",
+    backgroundColor: "#173021",
+    marginTop: "40px",
+  },
+};
 
 export default CafeLanding;
