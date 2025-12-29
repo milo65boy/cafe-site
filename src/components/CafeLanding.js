@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, NavLink, useLocation } from "react-router-dom";
 import Slider from "react-slick";
 import HomePage from "./HomePage";
 import MenuPage from "./MenuPage";
@@ -8,36 +8,54 @@ import ContactPage from "./ContactPage";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const CafeLanding = () => {
-  const [lang, setLang] = useState("fa"); // fa = فارسی, en = انگلیسی
+/* 🔹 انیمیشن تغییر صفحه */
+const PageWrapper = ({ children }) => {
+  const location = useLocation();
 
+  return (
+    <div key={location.pathname} style={styles.pageAnimation}>
+      {children}
+    </div>
+  );
+};
+
+const CafeLanding = () => {
+  const [lang, setLang] = useState("fa");
   const toggleLang = () => setLang(lang === "fa" ? "en" : "fa");
 
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 1000,
+    speed: 1200,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 3500,
     fade: true,
-    cssEase: "linear",
     arrows: true,
-    adaptiveHeight: true,
-    pauseOnHover: true,
+    pauseOnHover: false,
   };
 
-  const navItems = lang === "fa"
-    ? ["خانه", "منو", "درباره ما", "تماس با ما"]
-    : ["Home", "Menu", "About", "Contact"];
+  const navItems =
+    lang === "fa"
+      ? [
+          { label: "خانه", path: "/" },
+          { label: "منو", path: "/menu" },
+          { label: "درباره ما", path: "/about" },
+          { label: "تماس با ما", path: "/contact" },
+        ]
+      : [
+          { label: "Home", path: "/" },
+          { label: "Menu", path: "/menu" },
+          { label: "About", path: "/about" },
+          { label: "Contact", path: "/contact" },
+        ];
 
   return (
     <Router>
       <div style={styles.page}>
         <div style={styles.overlay}>
-
-          {/* Language Switch */}
+          {/* Language */}
           <div style={styles.langSwitcher}>
             <button onClick={toggleLang} style={styles.langButton}>
               {lang === "fa" ? "EN" : "FA"}
@@ -48,16 +66,18 @@ const CafeLanding = () => {
           <nav style={styles.nav}>
             <ul style={styles.navList}>
               {navItems.map((item, index) => (
-                <li key={index} style={styles.navItem}>
-                  <Link
-                    to={["خانه","Home"].includes(item) ? "/" :
-                        ["منو","Menu"].includes(item) ? "/menu" :
-                        ["درباره ما","About"].includes(item) ? "/about" :
-                        "/contact"}
-                    style={styles.link}
+                <li key={index}>
+                  <NavLink
+                    to={item.path}
+                    end
+                    style={({ isActive }) => ({
+                      ...styles.link,
+                      color: isActive ? "#fff" : "#ff8c00",
+                      borderBottom: isActive ? "3px solid #ff8c00" : "none",
+                    })}
                   >
-                    {item}
-                  </Link>
+                    {item.label}
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -65,33 +85,38 @@ const CafeLanding = () => {
 
           {/* Hero */}
           <div style={styles.hero}>
-            <h1 style={styles.title}>
-              CoffeeLand
-            </h1>
+            <h1 style={styles.title}>CoffeeLand</h1>
             <p style={styles.subtitle}>
-              {lang === "fa" ? "قهوه‌ای که طعمش یادت می‌مونه ☕" : "Coffee you'll never forget ☕"}
+              {lang === "fa"
+                ? "قهوه‌ای که طعمش یادت می‌مونه ☕"
+                : "Coffee you'll never forget ☕"}
             </p>
           </div>
 
           {/* Slider */}
           <div style={styles.sliderWrapper}>
             <Slider {...sliderSettings}>
-              <img src="/images/coffee1.jpg" alt="coffee" className="slide-img" style={styles.slideImg} />
-              <img src="/images/coffee2.jpg" alt="coffee" className="slide-img" style={styles.slideImg} />
-              <img src="/images/coffee3.jpg" alt="coffee" className="slide-img" style={styles.slideImg} />
+              {["1","2","3","4","5","6"].map((num) => (
+                <div key={num}>
+                  <img
+                    src={`/images/coffee${num}.jpg`}
+                    alt="coffee"
+                    style={styles.slideImg}
+                  />
+                </div>
+              ))}
             </Slider>
           </div>
 
-          {/* Pages */}
-          <div style={{ marginTop: "40px" }}>
+          {/* Pages with animation */}
+          <PageWrapper>
             <Routes>
               <Route path="/" element={<HomePage lang={lang} />} />
               <Route path="/menu" element={<MenuPage lang={lang} />} />
               <Route path="/about" element={<AboutPage lang={lang} />} />
               <Route path="/contact" element={<ContactPage lang={lang} />} />
             </Routes>
-          </div>
-
+          </PageWrapper>
         </div>
       </div>
     </Router>
@@ -104,51 +129,44 @@ const styles = {
     backgroundImage: "url('/images/bg.jpg')",
     backgroundSize: "cover",
     backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundAttachment: "fixed", // پارالکس
+    backgroundAttachment: "fixed",
     direction: "rtl",
-    fontFamily: "sans-serif",
   },
   overlay: {
     minHeight: "100vh",
-    backgroundColor: "rgba(0,0,0,0.35)",
+    backgroundColor: "rgba(0,0,0,0.4)",
     color: "#fff",
     textAlign: "center",
   },
   langSwitcher: {
     textAlign: "right",
-    padding: "15px 30px 0 0",
+    padding: "15px 30px 0",
   },
   langButton: {
     backgroundColor: "#ff8c00",
     border: "none",
-    padding: "6px 12px",
+    padding: "6px 14px",
     color: "#fff",
     fontWeight: "bold",
+    borderRadius: "6px",
     cursor: "pointer",
-    borderRadius: "5px",
   },
   nav: {
+    backgroundColor: "rgba(0,0,0,0.6)",
     padding: "20px 0",
-    backgroundColor: "rgba(0,0,0,0.5)",
   },
   navList: {
     listStyle: "none",
     display: "flex",
     justifyContent: "space-around",
-    margin: 0,
     padding: 0,
-    fontSize: "18px",
+    margin: 0,
     fontWeight: "bold",
     flexWrap: "wrap",
   },
-  navItem: {
-    margin: "5px 10px",
-    transition: "all 0.3s ease",
-  },
   link: {
     textDecoration: "none",
-    color: "#ff8c00",
+    paddingBottom: "6px",
     transition: "all 0.3s ease",
   },
   hero: {
@@ -157,12 +175,9 @@ const styles = {
   title: {
     fontSize: "56px",
     color: "#ff8c00",
-    fontWeight: "bold",
-    letterSpacing: "2px",
   },
   subtitle: {
     fontSize: "20px",
-    opacity: 0.95,
   },
   sliderWrapper: {
     maxWidth: "900px",
@@ -173,32 +188,27 @@ const styles = {
   },
   slideImg: {
     width: "100%",
-    height: "auto",
-    maxHeight: "450px",
+    height: "450px",        // 🔥 همه دقیقاً هم‌سایز
     objectFit: "cover",
-    transition: "transform 1s ease",
   },
-
-  /* Hover effect for slider images */
-  slideImgHover: {
-    transform: "scale(1.05)",
-  },
-
-  /* ریسپانسیو */
-  "@media(max-width:768px)": {
-    navList: {
-      flexDirection: "column",
-    },
-    sliderWrapper: {
-      width: "95%",
-    },
-    title: {
-      fontSize: "36px",
-    },
-    subtitle: {
-      fontSize: "16px",
-    },
+  pageAnimation: {
+    animation: "fadeSlide 0.6s ease",
   },
 };
+
+/* 🔹 انیمیشن */
+const styleSheet = document.styleSheets[0];
+styleSheet.insertRule(`
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+`, styleSheet.cssRules.length);
 
 export default CafeLanding;
