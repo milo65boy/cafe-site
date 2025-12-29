@@ -1,44 +1,16 @@
 import React from "react";
-import Slider from "react-slick";
-import "./CafeLanding.css";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
 
-function MenuPage() {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    rtl: true
-  };
-
+const MenuPage = ({ lang }) => {
   return (
-    <div className="landing-container">
-      <header className="header">
-        <h1>منو</h1>
-        <p>لیست کامل قهوه‌ها و دسرهای ما</p>
-      </header>
-
-      <Slider {...settings}>
-        <div className="slider-item">
-          <img src="/images/coffee1.jpg" alt="قهوه داغ" />
-          <h2>قهوه داغ</h2>
-        </div>
-        <div className="slider-item">
-          <img src="/images/coffee2.jpg" alt="کاپوچینو" />
-          <h2>کاپوچینو</h2>
-        </div>
-        <div className="slider-item">
-          <img src="/images/cake.jpg" alt="دسر" />
-          <h2>دسر</h2>
-        </div>
-      </Slider>
+    <div style={{ padding: "50px", color: "#fff" }}>
+      <h2>{lang === "fa" ? "منو" : "Menu"}</h2>
+      <p>
+        {lang === "fa"
+          ? "اینجا فهرست قهوه‌ها و نوشیدنی‌ها قرار می‌گیرد."
+          : "Here is the list of our coffees and drinks."}
+      </p>
     </div>
   );
-}
+};
 
 export default MenuPage;
